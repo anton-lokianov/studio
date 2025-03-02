@@ -16,7 +16,7 @@ const ServiceList = () => {
           transition={{
             duration: 0.3,
           }}
-          className="mb-36 flex w-full max-w-xl flex-col gap-5 lg:mb-0"
+          className="mb-24 flex w-full max-w-xl flex-col gap-5 lg:mb-0"
         >
           <div className="w-fit rounded-lg bg-gradient-to-tr from-gray-800 to-gray-600 p-3 shadow-inner shadow-black">
             {item.icon}

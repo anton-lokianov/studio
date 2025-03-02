@@ -6,7 +6,7 @@ const Title = () => {
     <FadeInView
       variants={variants}
       inViewOptions={{ margin: "0px 0px 0px 0px", once: true }}
-      className="mb-44 w-full max-w-xl space-y-2 lg:mb-0"
+      className="mb-24 w-full max-w-xl space-y-2 lg:mb-0"
     >
       <h2 className="w-fit bg-gradient-to-r from-blue-500 to-pink-500 bg-clip-text text-lg font-semibold text-transparent">
         # service
