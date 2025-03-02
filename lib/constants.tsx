@@ -26,82 +26,82 @@ export const testimonials: Testimonial[] = [
   {
     id: 1,
     name: "Sarah Johnson",
-    role: "Chief Technology Officer",
+    role: "Project Manager",
     company: "TechVision Inc.",
     content:
-      "This product has completely transformed how our team collaborates. The intuitive interface and powerful features have boosted our productivity by 40%. Absolutely worth every penny!",
+      "The new admin dashboard makes managing our content so much easier. Everything is organized well and easy to find. The best part is how smooth and fast it runs - no more waiting around for pages to load. Really happy with how our ideas were listened to and included in the final product.",
     image: "https://i.pravatar.cc/150?img=1",
   },
   {
     id: 2,
     name: "Michael Chen",
-    role: "Senior Product Designer",
+    role: "Startup Founder",
     company: "DesignCraft Studios",
     content:
-      "As a designer, I'm incredibly impressed with the attention to detail and user experience. It's rare to find a tool that perfectly balances functionality with aesthetics.",
+      "Our new landing page is exactly what we needed to look professional online. It loads quickly, looks great, and makes it easy for customers to contact us. The newsletter signup has already helped us build a good email list. Very pleased with the whole process and the end result.",
     image: "https://i.pravatar.cc/150?img=52",
   },
   {
     id: 3,
     name: "Adam Kowalski",
-    role: "Startup Founder",
+    role: "CEO",
     company: "InnovateLab",
     content:
-      "Starting a business is challenging, but this solution made our operations seamless. The customer support team is exceptional, and the platform keeps getting better with each update.",
+      "Our online store was having issues with payments not going through properly. Now everything works perfectly - customers can pay easily with credit cards or PayPal, and we're getting way fewer support calls. The whole checkout process is much smoother and more reliable.",
     image: "https://i.pravatar.cc/150?img=57",
   },
   {
     id: 4,
     name: "David Thompson",
-    role: "Marketing Director",
+    role: "Product Owner",
     company: "Growth Dynamics",
     content:
-      "The analytics capabilities are outstanding. We've gained invaluable insights into our customer behavior, which has helped us optimize our strategies effectively.",
+      "The update to our website gave it a completely fresh look while keeping it familiar for our regular users. The new design works great on phones too, which is something we really needed. Making updates is much simpler now, and we can easily add new content ourselves.",
     image: "https://i.pravatar.cc/150?img=56",
   },
   {
     id: 5,
     name: "Lisa Parker",
-    role: "Operations Manager",
+    role: "Digital Director",
     company: "Swift Solutions",
     content:
-      "Implementation was a breeze, and the ROI has been remarkable. Our team adapted quickly, and we've seen a significant improvement in our workflow efficiency.",
+      "The new inventory dashboard has made a big difference in how we track our products. It's easy to see what's in stock and what needs ordering. Everyone on the team picked it up quickly, and it's saved us so much time compared to our old spreadsheet system.",
     image: "https://i.pravatar.cc/150?img=5",
   },
   {
     id: 6,
     name: "James Wilson",
-    role: "Head of Engineering",
+    role: "Technical Lead",
     company: "CloudScale Systems",
     content:
-      "The scalability and performance are exceptional. We've handled 10x our usual load without any hiccups. The built-in monitoring tools have been invaluable for our DevOps team.",
+      "Our website had several annoying problems that needed fixing, and we also wanted to add some new features. Everything was handled professionally and now works exactly as we hoped. The improvements have made the site much more reliable and easier to use.",
     image: "https://i.pravatar.cc/150?img=8",
   },
   {
     id: 7,
     name: "Priya Patel",
-    role: "UX Research Lead",
+    role: "Product Manager",
     company: "UserFirst Digital",
     content:
-      "From a user research perspective, this platform has set new standards. The accessibility features and intuitive design patterns have made it a favorite among our diverse user base.",
+      "Our new website looks fantastic on both computers and phones, which was really important for us. The pages load quickly and everything is easy to read and navigate. We've had great feedback from our customers about how much better the new site is to use.",
     image: "https://i.pravatar.cc/150?img=9",
   },
   {
     id: 8,
     name: "Robert Martinez",
-    role: "Financial Controller",
+    role: "Operations Director",
     company: "Global Finance Partners",
     content:
-      "The reporting capabilities have revolutionized our financial planning. We've cut down our month-end closing time by 60%, and the accuracy of our forecasts has improved significantly.",
+      "The reporting tool has made our weekly reports so much easier to handle. What used to take hours now takes minutes, and the reports look much more professional. Being able to export everything to Excel has been incredibly helpful for our team meetings.",
     image: "https://i.pravatar.cc/150?img=11",
   },
   {
     id: 9,
     name: "Alexandra Kim",
-    role: "Product Manager",
+    role: "Marketing Director",
     company: "Innovation Hub",
     content:
-      "The integration capabilities are fantastic. We've connected it with all our existing tools, and the workflow automation has eliminated countless hours of manual work for our team.",
+      "Our new website perfectly shows off our work and makes it easy for potential clients to learn about us. The blog section helps us share updates, and the contact form has brought in many new inquiries. It's professional, easy to update, and exactly what we were looking for.",
     image: "https://i.pravatar.cc/150?img=12",
   },
 ];

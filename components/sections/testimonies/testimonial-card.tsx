@@ -30,7 +30,7 @@ export const TestimonialCard = ({
 }: TestimonialCardProps) => {
   return (
     <FadeInView inViewOptions={{ once: false, amount: 0.3 }}>
-      <article className="grid h-full min-h-60 gap-6 rounded-lg border border-gray-800 bg-gradient-to-r from-black via-blue-800/30 to-blue-900/30 p-4">
+      <article className="grid min-h-[300px] gap-4 rounded-lg border border-gray-800 bg-gradient-to-r from-black via-blue-800/30 to-blue-900/30 p-4">
         <header>
           <div className="flex gap-1">
             {[...Array(5)].map((_, index) => (
