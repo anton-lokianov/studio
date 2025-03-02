@@ -181,7 +181,7 @@ export const WorkSection = () => {
       controller.abort();
       clearTimeout(scrollTimer);
     };
-  }, [isMouseOutsideWhileScrolling]);
+  }, []);
 
   // Determine cursor style
   const getCursorStyle = () => {
