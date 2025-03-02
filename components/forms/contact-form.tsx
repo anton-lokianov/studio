@@ -56,7 +56,7 @@ export const ContactForm = () => {
         variants={formVariants}
       >
         <motion.div className="" variants={itemVariants}>
-          <Input placeholder="Name" {...form.register("name")} autoFocus />
+          <Input placeholder="Name" {...form.register("name")} />
           {form.formState.errors.name && (
             <p className="ml-1 text-sm text-red-500">
               {form.formState.errors.name.message}
