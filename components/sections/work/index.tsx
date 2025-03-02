@@ -35,7 +35,7 @@ export const WorkSection = () => {
     offset: ["start 0.7", "end end"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.82, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.84, 1]);
 
   // Create a motion value for cursor scale that depends on the container scale
   const cursorScale = useMotionValue(1 / 0.82);
@@ -199,7 +199,7 @@ export const WorkSection = () => {
       <div className="absolute -inset-0 bg-gradient-to-r from-pink-700/30 to-blue-700/30 blur-3xl" />
       <motion.div
         style={{ scale }}
-        className="relative h-[400px] w-full rounded-xl bg-gradient-to-r from-gray-600 via-blue-600 to-pink-600 p-[2px] sm:aspect-video sm:h-screen"
+        className="relative h-[400px] w-full rounded-xl bg-gradient-to-r from-gray-600 via-blue-600 to-pink-600 p-[2px] sm:aspect-video sm:h-[90vh]"
       >
         <InteractiveContainer
           containerRef={containerRef}
