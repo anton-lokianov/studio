@@ -6,10 +6,9 @@ import {
   useScroll,
   useTransform,
   useSpring,
-  AnimatePresence,
   useMotionValue,
-} from "framer-motion";
-import Image from "next/image";
+} from "motion/react";
+import { InteractiveContainer } from "./interactive-container";
 
 // Extend Window interface to include our custom properties
 declare global {
@@ -22,13 +21,15 @@ declare global {
 export const WorkSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
-  // Replace state with ref for scale tracking
+  // Replace state with refs
+  const isHoveringRef = useRef(false);
+  const isScrollingRef = useRef(false);
   const currentScaleRef = useRef(0.82);
 
   const [isMouseOutsideWhileScrolling, setIsMouseOutsideWhileScrolling] =
     useState(false);
+  const [showCustomCursor, setShowCustomCursor] = useState(false);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 0.7", "end end"],
@@ -68,7 +69,7 @@ export const WorkSection = () => {
 
   // Update cursor position based on mouse coordinates
   const updateCursorPosition = (clientX: number, clientY: number) => {
-    if (containerRef.current && isHovering) {
+    if (containerRef.current && isHoveringRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const x = clientX - rect.left;
       const y = clientY - rect.top;
@@ -81,10 +82,10 @@ export const WorkSection = () => {
         smoothX.set(scaleCompensatedX);
         smoothY.set(scaleCompensatedY);
 
-        if (isScrolling) {
+        if (isScrollingRef.current) {
           setIsMouseOutsideWhileScrolling(false);
         }
-      } else if (isScrolling) {
+      } else if (isScrollingRef.current) {
         setIsMouseOutsideWhileScrolling(true);
       }
     }
@@ -95,15 +96,25 @@ export const WorkSection = () => {
   };
 
   const handleMouseEnter = () => {
-    setIsHovering(true);
+    isHoveringRef.current = true;
     setIsMouseOutsideWhileScrolling(false);
+    updateCursorVisibility();
   };
 
   const handleMouseLeave = () => {
-    setIsHovering(false);
-    if (isScrolling) {
+    isHoveringRef.current = false;
+    if (isScrollingRef.current) {
       setIsMouseOutsideWhileScrolling(true);
     }
+    updateCursorVisibility();
+  };
+
+  // Update the cursor visibility based on current state
+  const updateCursorVisibility = () => {
+    setShowCustomCursor(
+      isHoveringRef.current &&
+        !(isScrollingRef.current && isMouseOutsideWhileScrolling)
+    );
   };
 
   // Add scroll event listener to update cursor position on scroll
@@ -112,14 +123,15 @@ export const WorkSection = () => {
     let scrollTimer: NodeJS.Timeout;
 
     const handleScroll = () => {
-      // Set scrolling state to true
-      setIsScrolling(true);
+      // Set scrolling ref to true
+      isScrollingRef.current = true;
+      updateCursorVisibility();
 
       // Clear any existing timeout
       clearTimeout(scrollTimer);
 
       if (
-        isHovering &&
+        isHoveringRef.current &&
         containerRef.current &&
         window.mouseX &&
         window.mouseY
@@ -127,6 +139,7 @@ export const WorkSection = () => {
         // Check if mouse is still over the container during scroll
         if (!isMouseInBounds(window.mouseX, window.mouseY)) {
           setIsMouseOutsideWhileScrolling(true);
+          updateCursorVisibility();
         } else {
           updateCursorPosition(window.mouseX, window.mouseY);
         }
@@ -134,8 +147,9 @@ export const WorkSection = () => {
 
       // Set a timeout to reset scrolling state after scrolling stops
       scrollTimer = setTimeout(() => {
-        setIsScrolling(false);
+        isScrollingRef.current = false;
         setIsMouseOutsideWhileScrolling(false);
+        updateCursorVisibility();
       }, 150);
     };
 
@@ -145,8 +159,12 @@ export const WorkSection = () => {
       window.mouseY = e.clientY;
 
       // Update mouse outside state while scrolling
-      if (isScrolling && containerRef.current) {
-        setIsMouseOutsideWhileScrolling(!isMouseInBounds(e.clientX, e.clientY));
+      if (isScrollingRef.current && containerRef.current) {
+        const newValue = !isMouseInBounds(e.clientX, e.clientY);
+        if (newValue !== isMouseOutsideWhileScrolling) {
+          setIsMouseOutsideWhileScrolling(newValue);
+          updateCursorVisibility();
+        }
       }
     };
 
@@ -163,13 +181,13 @@ export const WorkSection = () => {
       controller.abort();
       clearTimeout(scrollTimer);
     };
-  }, [isHovering, isScrolling]);
+  }, [isMouseOutsideWhileScrolling]);
 
   // Determine cursor style
   const getCursorStyle = () => {
-    if (isScrolling && isMouseOutsideWhileScrolling) {
+    if (isScrollingRef.current && isMouseOutsideWhileScrolling) {
       return "auto"; // Show default cursor when scrolling AND mouse is outside
-    } else if (isHovering) {
+    } else if (isHoveringRef.current) {
       return "none"; // Hide cursor when hovering (show custom cursor)
     } else {
       return "auto"; // Default cursor in all other cases
@@ -183,55 +201,17 @@ export const WorkSection = () => {
         style={{ scale }}
         className="relative h-[400px] w-full rounded-xl bg-gradient-to-r from-gray-600 via-blue-600 to-pink-600 p-[2px] sm:aspect-video sm:h-screen"
       >
-        <div
-          ref={containerRef}
-          className="relative h-full w-full overflow-hidden rounded-xl"
+        <InteractiveContainer
+          containerRef={containerRef}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onMouseMove={handleMouseMove}
-          style={{ cursor: getCursorStyle() }}
-        >
-          <Image
-            src="/app2.png"
-            alt="project-1"
-            fill
-            sizes="(max-width: 768px) 100vw, 80vw"
-            priority
-            className="rounded-xl object-cover"
-          />
-          <div className="absolute inset-0 z-10 rounded-xl opacity-70 shadow-[inset_0_-100px_130px_000px_#000]" />
-
-          {/* Custom cursor element */}
-          <AnimatePresence>
-            {isHovering && !(isScrolling && isMouseOutsideWhileScrolling) && (
-              <motion.div
-                className="pointer-events-none absolute z-50"
-                style={{
-                  left: smoothX,
-                  top: smoothY,
-                  x: "-50%",
-                  y: "-50%",
-                  // Apply the inverse scale to the cursor to maintain correct size
-                  scale: cursorScale,
-                  transformOrigin: "center center",
-                }}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.2 }}
-                exit={{ opacity: 0 }}
-              >
-                <div className="rounded-xl bg-gradient-to-r from-blue-500/40 to-pink-500/40 p-[1.5px] shadow-lg">
-                  <div className="rounded-lg border border-white/20 bg-white/5 px-5 py-2.5 backdrop-blur-sm">
-                    <p className="text-sm font-medium text-white drop-shadow-sm">
-                      let&apos;s work together{" "}
-                      <span className="text-yellow-500">✦</span>
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+          cursorStyle={getCursorStyle()}
+          showCustomCursor={showCustomCursor}
+          smoothX={smoothX}
+          smoothY={smoothY}
+          cursorScale={cursorScale}
+        />
       </motion.div>
     </section>
   );
