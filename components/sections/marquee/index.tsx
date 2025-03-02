@@ -16,9 +16,9 @@ const marqueeItems = [
 
 export const MarqueeSection = () => {
   return (
-    <div className="relative w-full py-2">
+    <div className="relative w-full overflow-clip py-2">
       <div className="pointer-events-none absolute inset-0 z-10 opacity-60 shadow-[inset_0_0px_5px_10px_#0a0a0a]" />
-      <InteractiveMarquee>
+      <InteractiveMarquee speed={1}>
         {marqueeItems.map((item) => (
           <div
             key={item}

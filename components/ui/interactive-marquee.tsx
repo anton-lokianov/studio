@@ -11,6 +11,7 @@ import {
 import normalizeWheel from "normalize-wheel";
 import { useRafLoop } from "react-use";
 import { useWindowSize } from "@react-hook/window-size";
+import { cn } from "@/lib/utils";
 
 type MarqueeItemProps = {
   children: React.ReactNode;
@@ -128,9 +129,10 @@ const MarqueeItem: React.FC<MarqueeItemProps> = (props) => {
 
   return (
     <motion.div
-      className={`flex items-center whitespace-nowrap font-serif text-2xl font-semibold md:text-4xl ${
-        direction === "up" || direction === "down" ? "w-full flex-col" : ""
-      }`}
+      className={cn(
+        "flex items-center whitespace-nowrap font-serif text-2xl font-semibold md:text-4xl",
+        (direction === "up" || direction === "down") && "w-full flex-col"
+      )}
       ref={itemRef}
       // Remove transition for consistent behavior with horizontal scrolling
     >
@@ -338,11 +340,11 @@ export const InteractiveMarquee: React.FC<MarqueeProps> = (props) => {
           ref={constraintsRef}
         />
         <motion.div
-          className={`z-10 flex cursor-grab items-center justify-center overflow-visible focus:cursor-grabbing focus:outline-none ${
-            direction === "up" || direction === "down"
-              ? "h-full min-h-[300px] w-full flex-col"
-              : ""
-          }`}
+          className={cn(
+            "z-10 flex cursor-grab items-center justify-center focus:cursor-grabbing focus:outline-none",
+            (direction === "up" || direction === "down") &&
+              "h-full min-h-[300px] w-full flex-col"
+          )}
           ref={marqueeRef}
           style={{
             skewX,
