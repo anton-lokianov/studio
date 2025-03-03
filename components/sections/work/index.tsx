@@ -7,8 +7,6 @@ import {
   useTransform,
   useSpring,
   useMotionValue,
-  useReducedMotion,
-  animate,
 } from "motion/react";
 import { InteractiveContainer } from "./interactive-container";
 import { useMedia } from "react-use";
@@ -28,20 +26,18 @@ export const WorkSection = () => {
   const isScrollingRef = useRef(false);
   const currentScaleRef = useRef(0.82);
   const scrollTimeoutRef = useRef<number>(null);
-  const prefersReducedMotion = useReducedMotion();
+  const lastUpdateRef = useRef(0);
   const isMobile = useMedia("(max-width: 768px)", false);
 
   const [isMouseOutsideWhileScrolling, setIsMouseOutsideWhileScrolling] =
     useState(false);
   const [showCustomCursor, setShowCustomCursor] = useState(false);
 
-  // Optimize scroll tracking with lower update rate
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 0.7", "end end"],
   });
 
-  // Optimize transform with lower precision
   const scale = useTransform(
     scrollYProgress,
     [0, 1],
@@ -51,15 +47,8 @@ export const WorkSection = () => {
     }
   );
 
-  // Optimize spring animations with lower precision and better performance
-  const springConfig = {
-    damping: prefersReducedMotion ? 50 : 35,
-    stiffness: prefersReducedMotion ? 500 : 400,
-    mass: 1,
-    restSpeed: 0.01,
-    restDelta: 0.01,
-  };
-
+  // Optimize spring config for better performance
+  const springConfig = { damping: 35, stiffness: 400 };
   const smoothX = useSpring(0, springConfig);
   const smoothY = useSpring(0, springConfig);
   const cursorScale = useMotionValue(1 / 0.82);
@@ -68,13 +57,10 @@ export const WorkSection = () => {
   useEffect(() => {
     const unsubscribe = scale.on("change", (value) => {
       currentScaleRef.current = value;
-      // Only update cursor scale if custom cursor is visible
-      if (showCustomCursor) {
-        cursorScale.set(1 / value);
-      }
+      cursorScale.set(1 / value);
     });
     return () => unsubscribe();
-  }, [scale, cursorScale, showCustomCursor]);
+  }, [scale, cursorScale]);
 
   // Memoize isMouseInBounds function
   const isMouseInBounds = useCallback((clientX: number, clientY: number) => {
@@ -88,9 +74,12 @@ export const WorkSection = () => {
     );
   }, []);
 
-  // Optimized cursor position update using Framer Motion's animate
+  // Throttled cursor position update using useCallback and useRef
   const updateCursorPosition = useCallback(
     (clientX: number, clientY: number) => {
+      const now = Date.now();
+      if (now - lastUpdateRef.current < 16) return; // ~60fps throttle
+
       if (containerRef.current && isHoveringRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
         if (isMouseInBounds(clientX, clientY)) {
@@ -99,17 +88,8 @@ export const WorkSection = () => {
           const scaleCompensatedX = x / currentScaleRef.current;
           const scaleCompensatedY = y / currentScaleRef.current;
 
-          // Use Framer Motion's animate for smoother transitions
-          animate(smoothX, scaleCompensatedX, {
-            type: "tween",
-            duration: 0.15,
-            ease: "circOut",
-          });
-          animate(smoothY, scaleCompensatedY, {
-            type: "tween",
-            duration: 0.15,
-            ease: "circOut",
-          });
+          smoothX.set(scaleCompensatedX);
+          smoothY.set(scaleCompensatedY);
 
           if (isScrollingRef.current) {
             setIsMouseOutsideWhileScrolling(false);
@@ -118,15 +98,14 @@ export const WorkSection = () => {
           setIsMouseOutsideWhileScrolling(true);
         }
       }
+      lastUpdateRef.current = now;
     },
     [isMouseInBounds, smoothX, smoothY]
   );
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
-      if (!isScrollingRef.current) {
-        updateCursorPosition(e.clientX, e.clientY);
-      }
+      updateCursorPosition(e.clientX, e.clientY);
     },
     [updateCursorPosition]
   );
@@ -145,9 +124,10 @@ export const WorkSection = () => {
     setShowCustomCursor(false);
   }, []);
 
-  // Optimized scroll handler with debounced updates
+  // Optimized scroll handler with RAF
   useEffect(() => {
     const controller = new AbortController();
+    let rafId: number | null = null;
 
     const handleScrollEnd = () => {
       isScrollingRef.current = false;
@@ -156,30 +136,55 @@ export const WorkSection = () => {
     };
 
     const handleScroll = () => {
+      // Cancel any pending scroll end
       if (typeof scrollTimeoutRef.current === "number") {
         window.clearTimeout(scrollTimeoutRef.current);
       }
 
-      if (!isScrollingRef.current) {
-        isScrollingRef.current = true;
-        setShowCustomCursor(false);
+      // Cancel any pending RAF
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
       }
 
-      // Debounce scroll end
-      scrollTimeoutRef.current = window.setTimeout(handleScrollEnd, 150);
+      rafId = window.requestAnimationFrame(() => {
+        if (!isScrollingRef.current) {
+          isScrollingRef.current = true;
+          setShowCustomCursor(false);
+        }
+
+        if (
+          isHoveringRef.current &&
+          typeof window.mouseX === "number" &&
+          typeof window.mouseY === "number"
+        ) {
+          if (!isMouseInBounds(window.mouseX, window.mouseY)) {
+            setIsMouseOutsideWhileScrolling(true);
+          } else {
+            updateCursorPosition(window.mouseX, window.mouseY);
+          }
+        }
+
+        // Set timeout for scroll end
+        scrollTimeoutRef.current = window.setTimeout(handleScrollEnd, 150);
+      });
     };
 
-    // Optimized mouse position tracking
+    // Throttled mouse position tracking
     const trackMousePosition = (e: MouseEvent) => {
       window.mouseX = e.clientX;
       window.mouseY = e.clientY;
 
       if (isScrollingRef.current && containerRef.current) {
-        const newValue = !isMouseInBounds(e.clientX, e.clientY);
-        if (newValue !== isMouseOutsideWhileScrolling) {
-          setIsMouseOutsideWhileScrolling(newValue);
-          setShowCustomCursor(!newValue && isHoveringRef.current);
+        if (rafId !== null) {
+          window.cancelAnimationFrame(rafId);
         }
+        rafId = window.requestAnimationFrame(() => {
+          const newValue = !isMouseInBounds(e.clientX, e.clientY);
+          if (newValue !== isMouseOutsideWhileScrolling) {
+            setIsMouseOutsideWhileScrolling(newValue);
+            setShowCustomCursor(!newValue && isHoveringRef.current);
+          }
+        });
       }
     };
 
@@ -198,8 +203,11 @@ export const WorkSection = () => {
       if (typeof scrollTimeoutRef.current === "number") {
         window.clearTimeout(scrollTimeoutRef.current);
       }
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
     };
-  }, [isMouseInBounds, isMouseOutsideWhileScrolling]);
+  }, [isMouseInBounds, isMouseOutsideWhileScrolling, updateCursorPosition]);
 
   const getCursorStyle = useCallback(() => {
     if (isScrollingRef.current && isMouseOutsideWhileScrolling) {
@@ -215,7 +223,6 @@ export const WorkSection = () => {
       <div className="absolute -inset-0 bg-gradient-to-r from-pink-700/30 to-blue-700/30 blur-3xl" />
       <motion.div
         style={{ scale }}
-        initial={false}
         className="relative h-[530px] w-full rounded-xl bg-gradient-to-r from-gray-600 via-blue-600 to-pink-600 p-[2px] will-change-transform sm:aspect-video sm:h-[42rem]"
       >
         <InteractiveContainer

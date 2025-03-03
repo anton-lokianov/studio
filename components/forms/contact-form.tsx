@@ -11,6 +11,8 @@ import {
   contactFormSchema,
   type ContactFormSchema,
 } from "@/lib/types/form-schema";
+import { sendEmail } from "@/actions/mail";
+import { useAnimate } from "motion/react";
 
 export const ContactForm = () => {
   const form = useForm<ContactFormSchema>({
@@ -22,8 +24,8 @@ export const ContactForm = () => {
     },
   });
 
-  const onSubmit = (data: ContactFormSchema) => {
-    console.log(data);
+  const onSubmit = async (data: ContactFormSchema) => {
+    const response = await sendEmail(data);
   };
 
   return (
