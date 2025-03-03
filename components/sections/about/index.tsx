@@ -9,7 +9,7 @@ export const AboutSection = () => {
         inViewOptions={{ amount: 0.2, once: true }}
         exitViewAnimation
       >
-        <div className="space-y-12 text-balance bg-gradient-to-tl from-blue-500 to-pink-500 bg-clip-text py-3 text-[clamp(2.2rem,5.5vw,4.6rem)] font-bold text-transparent">
+        <div className="space-y-12 bg-gradient-to-tl from-blue-500 to-pink-500 bg-clip-text py-3 text-[clamp(2.2rem,5.5vw,4.6rem)] font-bold text-transparent">
           <p className="text-balance leading-none">
             We blend aesthetics, functionality, and purpose to create
             exceptional designs. Every element is crafted with intention,

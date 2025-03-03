@@ -26,11 +26,11 @@ const StarIcon = () => (
 );
 
 export const TestimonialCard = ({
-  testimonial: { name, role, company, content, image },
+  testimonial: { name, role, content },
 }: TestimonialCardProps) => {
   return (
     <FadeInView inViewOptions={{ once: false, amount: 0.3 }}>
-      <article className="grid min-h-[300px] gap-4 rounded-lg border border-gray-800 bg-gradient-to-r from-black via-blue-800/30 to-blue-900/30 p-4">
+      <article className="grid min-h-[250px] gap-4 rounded-lg border border-gray-800 bg-gradient-to-r from-black via-blue-800/30 to-blue-900/30 p-4">
         <header>
           <div className="flex gap-1">
             {[...Array(5)].map((_, index) => (
@@ -44,16 +44,14 @@ export const TestimonialCard = ({
         </main>
 
         <footer className="flex items-center gap-4">
-          <img
-            src={image}
-            alt={`${name}'s profile picture`}
-            className="h-12 w-12 rounded-full object-cover"
-          />
+          <div className="grid h-12 w-12 rounded-full border border-gray-900 bg-background object-cover">
+            <span className="m-auto inline-block bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-xl font-bold uppercase text-transparent">
+              {name.charAt(0)}
+            </span>
+          </div>
           <div>
             <h3 className="text-lg font-semibold">{name}</h3>
-            <p className="text-sm text-gray-400">
-              {role} at {company}
-            </p>
+            <p className="text-sm text-gray-400">{role}</p>
           </div>
         </footer>
       </article>

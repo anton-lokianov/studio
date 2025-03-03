@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 *,
 *::before,
 *::after {
@@ -11,16 +10,13 @@
   padding: 0;
 }
 
-
-
 @layer base {
   :root {
     --foreground: #ffffff;
     --background: #0a0a0a;
-    --font-inter:  "Inter Display", "Inter Display Placeholder", sans-serif;
+    --font-inter: "Inter Display", "Inter Display Placeholder", sans-serif;
   }
 }
-
 
 @layer base {
   body {
@@ -29,5 +25,3 @@
     font-family: var(--font-inter), sans-serif;
   }
 }
-
-

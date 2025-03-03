@@ -9,6 +9,7 @@ import {
   useMotionValue,
 } from "motion/react";
 import { InteractiveContainer } from "./interactive-container";
+import { useMedia } from "react-use";
 
 // Extend Window interface to include our custom properties
 declare global {
@@ -24,6 +25,7 @@ export const WorkSection = () => {
   const isHoveringRef = useRef(false);
   const isScrollingRef = useRef(false);
   const currentScaleRef = useRef(0.82);
+  const isMobile = useMedia("(max-width: 768px)");
 
   const [isMouseOutsideWhileScrolling, setIsMouseOutsideWhileScrolling] =
     useState(false);
@@ -34,7 +36,11 @@ export const WorkSection = () => {
     offset: ["start 0.7", "end end"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.84, 1]);
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [isMobile ? 0.95 : 0.84, 1]
+  );
 
   // Create a motion value for cursor scale that depends on the container scale
   const cursorScale = useMotionValue(1 / 0.82);
@@ -198,7 +204,7 @@ export const WorkSection = () => {
       <div className="absolute -inset-0 bg-gradient-to-r from-pink-700/30 to-blue-700/30 blur-3xl" />
       <motion.div
         style={{ scale }}
-        className="relative h-[500px] w-full rounded-xl bg-gradient-to-r from-gray-600 via-blue-600 to-pink-600 p-[2px] sm:aspect-video sm:h-[41rem]"
+        className="relative h-[530px] w-full rounded-xl bg-gradient-to-r from-gray-600 via-blue-600 to-pink-600 p-[2px] sm:aspect-video sm:h-[42rem]"
       >
         <InteractiveContainer
           containerRef={containerRef}

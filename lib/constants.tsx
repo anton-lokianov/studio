@@ -4,9 +4,7 @@ export interface Testimonial {
   id: number;
   name: string;
   role: string;
-  company: string;
   content: string;
-  image: string;
 }
 
 export interface Workflow {
@@ -26,83 +24,65 @@ export const testimonials: Testimonial[] = [
   {
     id: 1,
     name: "Sarah Johnson",
-    role: "Project Manager",
-    company: "TechVision Inc.",
+    role: "Restaurant Owner",
     content:
-      "The new admin dashboard makes managing our content so much easier. Everything is organized well and easy to find. The best part is how smooth and fast it runs - no more waiting around for pages to load. Really happy with how our ideas were listened to and included in the final product.",
-    image: "https://i.pravatar.cc/150?img=1",
+      "My restaurant's website looks amazing! The online menu and reservation system work perfectly. Since launching the new site, we've seen a significant increase in bookings and takeout orders.",
   },
   {
     id: 2,
     name: "Michael Chen",
-    role: "Startup Founder",
-    company: "DesignCraft Studios",
+    role: "Real Estate Agent",
     content:
-      "Our new landing page is exactly what we needed to look professional online. It loads quickly, looks great, and makes it easy for customers to contact us. The newsletter signup has already helped us build a good email list. Very pleased with the whole process and the end result.",
-    image: "https://i.pravatar.cc/150?img=52",
+      "The property listing website makes showcasing homes so much easier. My clients love how they can view detailed photos and virtual tours. It's definitely helped me close more deals.",
   },
   {
     id: 3,
-    name: "Adam Kowalski",
-    role: "CEO",
-    company: "InnovateLab",
+    name: "Emma Rodriguez",
+    role: "Wedding Photographer",
     content:
-      "Our online store was having issues with payments not going through properly. Now everything works perfectly - customers can pay easily with credit cards or PayPal, and we're getting way fewer support calls. The whole checkout process is much smoother and more reliable.",
-    image: "https://i.pravatar.cc/150?img=57",
+      "My photography portfolio website is exactly what I wanted. The gallery displays my work beautifully, and potential clients can easily browse through different wedding collections. Booking consultations has never been easier.",
   },
   {
     id: 4,
     name: "David Thompson",
-    role: "Product Owner",
-    company: "Growth Dynamics",
+    role: "Personal Trainer",
     content:
-      "The update to our website gave it a completely fresh look while keeping it familiar for our regular users. The new design works great on phones too, which is something we really needed. Making updates is much simpler now, and we can easily add new content ourselves.",
-    image: "https://i.pravatar.cc/150?img=56",
+      "The website has transformed my fitness business. Clients can now book sessions online, view workout plans, and track their progress. The before-and-after gallery really helps attract new clients.",
   },
   {
     id: 5,
     name: "Lisa Parker",
-    role: "Digital Director",
-    company: "Swift Solutions",
+    role: "Boutique Owner",
     content:
-      "The new inventory dashboard has made a big difference in how we track our products. It's easy to see what's in stock and what needs ordering. Everyone on the team picked it up quickly, and it's saved us so much time compared to our old spreadsheet system.",
-    image: "https://i.pravatar.cc/150?img=5",
+      "My online store is beautiful and easy to manage. Customers love how they can easily browse through collections and make purchases. The Instagram integration really helps showcase our latest arrivals.",
   },
   {
     id: 6,
     name: "James Wilson",
-    role: "Technical Lead",
-    company: "CloudScale Systems",
+    role: "Local Artist",
     content:
-      "Our website had several annoying problems that needed fixing, and we also wanted to add some new features. Everything was handled professionally and now works exactly as we hoped. The improvements have made the site much more reliable and easier to use.",
-    image: "https://i.pravatar.cc/150?img=8",
+      "The website perfectly displays my artwork portfolio. The online gallery captures the details of my pieces beautifully, and the commission request system has brought in several new projects.",
   },
   {
     id: 7,
-    name: "Priya Patel",
-    role: "Product Manager",
-    company: "UserFirst Digital",
+    name: "Maria Garcia",
+    role: "Food Blogger",
     content:
-      "Our new website looks fantastic on both computers and phones, which was really important for us. The pages load quickly and everything is easy to read and navigate. We've had great feedback from our customers about how much better the new site is to use.",
-    image: "https://i.pravatar.cc/150?img=9",
+      "My food blog looks professional and runs smoothly. The recipe layout is perfect, and readers can easily search for specific dishes. The newsletter signup has helped me grow my following significantly.",
   },
   {
     id: 8,
     name: "Robert Martinez",
-    role: "Operations Director",
-    company: "Global Finance Partners",
+    role: "Dental Practice Owner",
     content:
-      "The reporting tool has made our weekly reports so much easier to handle. What used to take hours now takes minutes, and the reports look much more professional. Being able to export everything to Excel has been incredibly helpful for our team meetings.",
-    image: "https://i.pravatar.cc/150?img=11",
+      "The new website has really modernized our dental practice. Patients can easily schedule appointments online, and the before-and-after gallery helps showcase our work. It's professional and user-friendly.",
   },
   {
     id: 9,
     name: "Alexandra Kim",
-    role: "Marketing Director",
-    company: "Innovation Hub",
+    role: "Yoga Studio Owner",
     content:
-      "Our new website perfectly shows off our work and makes it easy for potential clients to learn about us. The blog section helps us share updates, and the contact form has brought in many new inquiries. It's professional, easy to update, and exactly what we were looking for.",
-    image: "https://i.pravatar.cc/150?img=12",
+      "The website captures the peaceful essence of our yoga studio perfectly. Students love being able to book classes online and check the schedule from their phones. The blog section helps us share wellness tips with our community.",
   },
 ];
 

@@ -1,17 +1,18 @@
 import { InteractiveMarquee } from "@/components/ui/interactive-marquee";
 
 const marqueeItems = [
-  "WGC",
-  "Acme Inc",
-  "TechSolve",
-  "GlobalVision",
-  "BlueSky Media",
-  "NovaTech",
-  "Horizon Partners",
-  "PrimeSoft",
-  "Atlas Group",
-  "ClearEdge Systems",
-  "Momentum Ltd",
+  "Explore",
+  "Discover",
+  "Transform",
+  "Evolve",
+  "Journey",
+  "Adventure",
+  "Harmony",
+  "Growth",
+  "Purpose",
+  "Impact",
+  "Legacy",
+  "Empower",
 ];
 
 export const MarqueeSection = () => {

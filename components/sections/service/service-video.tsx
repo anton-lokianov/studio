@@ -16,7 +16,7 @@ const ServiceVideo = () => {
   return (
     <motion.div
       ref={containerRef}
-      className="relative hidden min-h-[100vh] md:min-h-[500vh] lg:block"
+      className="relative hidden min-h-[100vh] md:min-h-[450vh] lg:block"
     >
       <div className="flex w-full items-center md:sticky md:top-0 md:h-screen">
         <motion.div

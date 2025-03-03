@@ -7,7 +7,7 @@ import { Icons } from "@/components/ui/icons";
 
 const ServiceList = () => {
   return (
-    <div className="flex flex-col items-center justify-evenly py-10 md:h-[400vh] md:py-0">
+    <div className="flex flex-col items-center justify-evenly py-10 md:h-[360vh] md:py-0">
       <Title />
       {WHAT_WE_DO.map((item) => (
         <FadeInView
