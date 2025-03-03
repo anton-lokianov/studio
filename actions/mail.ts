@@ -9,15 +9,18 @@ export async function sendEmail(formData: ContactFormSchema) {
   const { name, email, subject, message } = formData;
   // throw new Error("test");
   try {
-    const { data } = await resend.emails.send({
-      from: "onboarding@resend.dev",
+    const { data, error } = await resend.emails.send({
+      from: email,
       to: "antonlokianov@gmail.com",
       subject,
       html: `<p>Name: ${name}</p><p>Email: ${email}</p><p>Subject: ${subject}</p><p>Message: ${message}</p>`,
     });
-    if (!data) {
+
+    if (error) {
+      console.log(error);
       throw new Error("Failed to send email");
     }
+
     return data;
   } catch (err) {
     console.error("Email sending error:", err);
