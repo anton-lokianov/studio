@@ -17,13 +17,12 @@ export async function sendEmail(formData: ContactFormSchema) {
     });
 
     if (error) {
-      console.log(error);
+      console.error(error);
       throw new Error("Failed to send email");
     }
 
     return data;
   } catch (err) {
-    console.error("Email sending error:", err);
     throw err;
   }
 }

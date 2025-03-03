@@ -190,7 +190,7 @@ export const ContactForm = () => {
               initial={{ opacity: 0 }}
               animate={{
                 opacity: 1,
-                transition: { delay: 0.4, duration: 0.3 },
+                transition: { delay: 0.2, duration: 0.3 },
               }}
               className="text-md mt-4 rounded-lg border border-gray-700 bg-background px-4 py-2 text-white transition-all duration-200 hover:scale-105"
               onClick={() => router.push("/")}
@@ -214,7 +214,7 @@ export const ContactForm = () => {
               initial={{ opacity: 0 }}
               animate={{
                 opacity: 1,
-                transition: { delay: 0.4, duration: 0.3 },
+                transition: { delay: 0.2, duration: 0.3 },
               }}
               className="text-md mt-4 rounded-lg border border-gray-700 bg-background px-4 py-2 text-white transition-all duration-200 hover:scale-105"
               onClick={() => setStatus(null)}
