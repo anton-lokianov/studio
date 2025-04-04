@@ -132,7 +132,19 @@ export const WorkSection = () => {
     const handleScrollEnd = () => {
       isScrollingRef.current = false;
       setIsMouseOutsideWhileScrolling(false);
-      setShowCustomCursor(isHoveringRef.current);
+
+      // Check if mouse is in bounds when scrolling ends
+      if (
+        isHoveringRef.current &&
+        typeof window.mouseX === "number" &&
+        typeof window.mouseY === "number" &&
+        isMouseInBounds(window.mouseX, window.mouseY)
+      ) {
+        setShowCustomCursor(true);
+        updateCursorPosition(window.mouseX, window.mouseY);
+      } else {
+        setShowCustomCursor(isHoveringRef.current);
+      }
     };
 
     const handleScroll = () => {
@@ -149,7 +161,8 @@ export const WorkSection = () => {
       rafId = window.requestAnimationFrame(() => {
         if (!isScrollingRef.current) {
           isScrollingRef.current = true;
-          setShowCustomCursor(false);
+          // Don't hide cursor immediately when scrolling starts
+          // Only update visibility based on mouse position
         }
 
         if (
@@ -159,7 +172,10 @@ export const WorkSection = () => {
         ) {
           if (!isMouseInBounds(window.mouseX, window.mouseY)) {
             setIsMouseOutsideWhileScrolling(true);
+            setShowCustomCursor(false);
           } else {
+            setIsMouseOutsideWhileScrolling(false);
+            setShowCustomCursor(true);
             updateCursorPosition(window.mouseX, window.mouseY);
           }
         }
@@ -174,17 +190,24 @@ export const WorkSection = () => {
       window.mouseX = e.clientX;
       window.mouseY = e.clientY;
 
-      if (isScrollingRef.current && containerRef.current) {
-        if (rafId !== null) {
-          window.cancelAnimationFrame(rafId);
-        }
-        rafId = window.requestAnimationFrame(() => {
-          const newValue = !isMouseInBounds(e.clientX, e.clientY);
-          if (newValue !== isMouseOutsideWhileScrolling) {
-            setIsMouseOutsideWhileScrolling(newValue);
-            setShowCustomCursor(!newValue && isHoveringRef.current);
+      if (containerRef.current) {
+        // Check bounds regardless of scroll state
+        const isInBounds = isMouseInBounds(e.clientX, e.clientY);
+        const newOutsideValue = !isInBounds;
+
+        if (newOutsideValue !== isMouseOutsideWhileScrolling) {
+          setIsMouseOutsideWhileScrolling(newOutsideValue);
+
+          // Only update cursor visibility if we're hovering
+          if (isHoveringRef.current) {
+            setShowCustomCursor(isInBounds);
           }
-        });
+        }
+
+        // If mouse is in bounds and hovering, update cursor position
+        if (isInBounds && isHoveringRef.current) {
+          updateCursorPosition(e.clientX, e.clientY);
+        }
       }
     };
 
